@@ -1011,6 +1011,11 @@ public class Test{
 
 ```
 
+## **Herencia Multinivel**
+```java
+
+```
+
 ### **Polimorfismo**
 
 ```java
@@ -1018,6 +1023,9 @@ public class Test{
 ```
 
 ### **Abstracción**
+```java
+
+```
 
 ### **Contexto Estático**
 
@@ -1119,6 +1127,218 @@ public class Ejemplo {
     // <datatype>...<name>
     public static void imprimirNumeros(int... numeros) {
         System.out.println(numeros);
+    }
+}
+```
+
+## **Enums**
+Los enums, o enumeraciones, en Java son una forma de crear un tipo de dato especial que representa un conjunto fijo de constantes, esto permite contener en un objecto una colección de constantes y no tener que declarar varios `final`.
+```java
+// Ejemplo de Enum
+public enum DiaSemana {
+    LUNES,
+    MARTES,
+    MIERCOLES,
+    JUEVES,
+    VIERNES,
+    SABADO,
+    DOMINGO
+}
+
+// Ejemplo de Enum con constructor y métodos
+public class JavaLab {
+
+    public enum DiaSemana {
+        LUNES("Lunes", 1),
+        MARTES("Martes", 2),
+        MIERCOLES("Miércoles", 3),
+        JUEVES("Jueves", 4),
+        VIERNES("Viernes", 5),
+        SABADO("Sábado", 6),
+        DOMINGO("Domingo", 7);
+
+        private final String nombre;
+        private final int numero;
+
+        private DiaSemana(String nombre, int numero) {
+            this.nombre = nombre;
+            this.numero = numero;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public int getNumero() {
+            return numero;
+        }
+    }
+
+    public static void main(String[] args) {
+        DiaSemana dia = DiaSemana.MARTES;
+        String nombreDia = dia.getNombre();
+        System.out.println("El nombre del día es: " + nombreDia);
+    }
+
+}
+```
+
+## **Bloques de Código en Java**
+
+### **Bloques de inicialización no estáticos (o contexto dinámico)**
+* Los bloques de inicialización no estáticos, también conocidos como bloques de inicialización de instancias, se utilizan para inicializar variables o realizar operaciones específicas antes de que se ejecute cada constructor de la clase.
+* No se utiliza la palabra clave `static` y se colocan dentro de la clase, pero fuera de cualquier método.
+* Se ejecutan cada vez que se crea un nuevo objeto de la clase antes de que se ejecute el constructor correspondiente.
+* Pueden hacer referencia a variables de instancia y métodos de instancia.
+* Son útiles cuando se necesita realizar una lógica de inicialización común para todos los constructores de la clase.
+```java
+public class MiClase {
+    private int numero;
+    
+    {
+        numero = 10;
+        System.out.println("Bloque de inicialización no estático ejecutado");
+    }
+    
+    // Resto del código de la clase...
+}
+```
+
+### **Bloques de inicialización estáticos**
+* Los bloques de inicialización estáticos se utilizan para inicializar variables o realizar otras operaciones antes de que se ejecute cualquier constructor de la clase.
+* Se definen utilizando la palabra clave `static` y se colocan dentro de la clase, pero fuera de cualquier método o constructor.
+* Se ejecutan una vez cuando se carga la clase en memoria, antes de que se creen objetos de esa clase.
+* Son útiles para realizar inicializaciones complejas o lógica adicional que se necesita antes de crear objetos.
+* No pueden hacer referencia a variables no estáticas o métodos no estáticos.
+
+```java
+public class MiClase {
+    private static int numero;
+    
+    static {
+        numero = 10;
+        System.out.println("Bloque de inicialización estático ejecutado");
+    }
+    
+    // Resto del código de la clase...
+}
+```
+
+**Ejemplo de uso:**
+```java
+// Persona.java
+public class Persona {
+
+    private final int idPersona;
+    private static int contadorPersonas;
+
+    static {
+        System.out.println("Ejecucion bloque estatico");
+        ++Persona.contadorPersonas;
+        //idPersona = 10;
+    }
+
+    {
+        System.out.println("Ejecucion bloque NO estatico");
+        this.idPersona = Persona.contadorPersonas++;
+    }
+
+    public Persona() {
+        System.out.println("Ejecucion del constructor");
+    }
+
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "idPersona=" + idPersona + '}';
+    }
+
+}
+
+// Test.java
+import domain.Persona;
+
+public class TestBloquesInicializacion {
+
+    public static void main(String[] args) {
+        Persona persona1 = new Persona();
+        System.out.println("persona1 = " + persona1);
+        System.out.println("");
+        Persona persona2 = new Persona();
+        System.out.println("persona2 = " + persona2);
+
+    }
+}
+/* 
+OUTPUT POR CONSOLA: 
+
+Ejecucion bloque estatico
+Ejecucion bloque NO estatico
+Ejecucion del constructor
+persona1 = Persona{idPersona=1}
+
+Ejecucion bloque NO estatico
+Ejecucion del constructor
+persona2 = Persona{idPersona=2}
+*/
+```
+
+
+## **ForEach**
+Este bloque de código permite recorrer una colección de elementos de una manera más sencilla que los ciclos for. 
+```java
+int[] numeros = {1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10};
+
+for (int numero : numeros) {
+    System.out.println("Número => " + numero);
+}
+
+/*
+OUTPUT:
+Número => 1
+Número => 2
+Número => 3
+Número => 4
+Número => 5
+Número => 5
+Número => 6
+Número => 7
+Número => 8
+Número => 9
+Número => 10
+*/
+```
+
+## **Autoboxing y Unboxing**
+
+![](https://raw.githubusercontent.com/AntuBoccalandro/GalleryRepository/master/autoboxing-and-unboxing-in-java.webp?token=GHSAT0AAAAAACAIC3KN6HUT7ZM3K6I2MKVQZEMWCDA)
+
+### **Autoboxing**
+Autoboxing es el proceso que el compilador hace de manera automática para convertir un tipo primitivo en un objeto Java en su tipo Object equivalente. Por ejemplo en el código mostrado podemos observar que la literal 10, que es una literal de tipo int, se asigna directamente a una clase llamada Integer.
+
+### **Unboxing**
+El proceso de Unboxing es el proceso inverso, es decir, un objeto de tipo envolvente se puede convertir de manera automática a un tipo primitivo sin necesidad de aplicar ninguna conversión entre objetos y tipos primitivos
+
+**Ejemplo:**
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class AutoboxingUnboxingExample {
+    public static void main(String[] args) {
+        List<Integer> numeros = new ArrayList<>();
+
+        // Autoboxing: conversión automática de int a Integer
+        int numero = 10;
+        numeros.add(numero);
+
+        // Unboxing: conversión automática de Integer a int
+        int primerNumero = numeros.get(0);
+
+        System.out.println("Número obtenido: " + primerNumero);
     }
 }
 ```
